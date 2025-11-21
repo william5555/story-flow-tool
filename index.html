@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <title>故事流程圖工具</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 工具列 -->
+    <header class="toolbar">
+      <div class="toolbar-left">
+        <span class="app-title">故事流程圖工具</span>
+      </div>
+      <div class="toolbar-center">
+        <button class="mode-button active" data-target="view-flow">流程圖</button>
+        <button class="mode-button" data-target="view-nodes">主線／分支卡片</button>
+        <button class="mode-button" data-target="view-themes">主題卡片</button>
+      </div>
+      <div class="toolbar-right">
+        <button id="btnAddMainNode">＋ 主線</button>
+        <button id="btnAddBranchNode">＋ 分支</button>
+        <button id="btnAddTheme">＋ 主題</button>
+        <span class="divider"></span>
+        <button id="btnSave">儲存</button>
+        <button id="btnLoad">載入</button>
+        <button id="btnExport">匯出 JSON</button>
+        <button id="btnImport">匯入 JSON</button>
+        <input type="file" id="fileInput" accept="application/json" style="display:none" />
+      </div>
+    </header>
+
+    <!-- 主內容區：左側視圖 + 右側詳細面板 -->
+    <div class="main-layout">
+      <!-- 視圖區 -->
+      <main class="main-views">
+
+        <!-- 流程圖視圖 -->
+        <section id="view-flow" class="view active">
+          <div class="view-header">
+            <h2>流程圖</h2>
+            <p class="view-desc">拖曳節點改變位置，拖曳背景移動畫布，點節點查看細節。</p>
+          </div>
+
+          <div id="flowViewport">
+            <div id="flowCanvas">
+              <!-- SVG 連線層 -->
+              <svg id="flowLinksOverlay"></svg>
+              <!-- 節點層 -->
+              <div id="flowNodesLayer"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 主線／分支卡片視圖 -->
+        <section id="view-nodes" class="view">
+          <div class="view-header">
+            <h2>主線／分支卡片</h2>
+            <p class="view-desc">以清單方式編輯所有主線與分支的文字內容。</p>
+          </div>
+          <div id="nodesList" class="card-list"></div>
+        </section>
+
+        <!-- 主題卡片視圖 -->
+        <section id="view-themes" class="view">
+          <div class="view-header">
+            <h2>主題卡片</h2>
+            <p class="view-desc">獨立於劇情之外的主題／世界觀設定。</p>
+          </div>
+          <div id="themesList" class="card-list"></div>
+        </section>
+
+      </main>
+
+      <!-- 右側詳細面板 -->
+      <aside id="detailPanel" class="detail-panel hidden">
+        <div class="detail-header">
+          <button id="btnCloseDetail" class="ghost-button">← 返回流程圖</button>
+          <h2 id="detailTitle">詳細內容</h2>
+        </div>
+        <div id="detailContent" class="detail-content">
+          <!-- 動態插入 -->
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
