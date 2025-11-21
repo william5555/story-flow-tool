@@ -1,0 +1,603 @@
+/* ========== 全域：顏色、字體、背景 ========== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-body: #020617;          /* 整體背景 */
+  --bg-shell: rgba(15, 23, 42, 0.96);
+  --bg-surface: #020617;       /* 主要區塊背景 */
+  --bg-surface-alt: #030712;
+  --border-subtle: rgba(30, 64, 175, 0.5);
+  --border-soft: rgba(148, 163, 184, 0.45);
+  --text-main: #e5e7eb;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-soft: rgba(56, 189, 248, 0.18);
+  --accent-purple: #a855f7;
+  --danger: #fb7185;
+  --radius-xl: 18px;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.75);
+  --shadow-card: 0 14px 32px rgba(15, 23, 42, 0.8);
+  --shadow-floating: 0 22px 60px rgba(15, 23, 42, 0.9);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at 5% 0%, rgba(56, 189, 248, 0.2), transparent 55%),
+    radial-gradient(circle at 95% 100%, rgba(168, 85, 247, 0.2), transparent 55%),
+    var(--bg-body);
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+}
+
+/* 讓整個 app 像一個置中的工作面板 */
+#app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 14px 18px;
+}
+
+/* ========== 頂部工具列 ========== */
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.98));
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.42);
+  gap: 10px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(22px);
+}
+
+.toolbar-left,
+.toolbar-center,
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbar-left {
+  min-width: 210px;
+}
+
+.toolbar-center {
+  flex: 1;
+  justify-content: center;
+}
+
+.toolbar-right {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.app-title {
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background:
+    radial-gradient(circle at top, rgba(148, 163, 184, 0.2), transparent 65%),
+    rgba(15, 23, 42, 0.96);
+}
+
+/* 共用按鈕 */
+button {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: radial-gradient(circle at top, rgba(30, 64, 175, 0.5), rgba(15, 23, 42, 0.95));
+  color: var(--text-main);
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease,
+    box-shadow 0.12s ease,
+    transform 0.07s ease,
+    color 0.1s ease;
+  white-space: nowrap;
+}
+
+button:hover {
+  background: radial-gradient(circle at top, rgba(59, 130, 246, 0.9), rgba(15, 23, 42, 1));
+  border-color: rgba(191, 219, 254, 0.9);
+  box-shadow: 0 0 0 1px rgba(191, 219, 254, 0.45);
+}
+
+button:active {
+  transform: translateY(1px) scale(0.99);
+  box-shadow: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* 模式按鈕（流程圖／主線分支／主題） */
+.mode-button {
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  background: rgba(15, 23, 42, 0.7);
+  border-color: rgba(148, 163, 184, 0.6);
+  color: var(--text-muted);
+}
+
+.mode-button.active {
+  background:
+    radial-gradient(circle at 0 0, rgba(251, 113, 133, 0.9), transparent 50%),
+    linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #020617;
+  border-color: rgba(248, 250, 252, 0.9);
+  box-shadow: 0 0 22px rgba(56, 189, 248, 0.8);
+}
+
+/* 分隔線 */
+.divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* ========== 主佈局：左視圖 + 右詳細面板 ========== */
+.main-layout {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  gap: 12px;
+}
+
+/* 左側視圖容器 */
+.main-views {
+  flex: 1.65;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* 視圖通用卡片 */
+.view {
+  flex: 1;
+  display: none;
+  flex-direction: column;
+  padding: 12px 14px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.18), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.22), transparent 60%),
+    rgba(15, 23, 42, 0.97);
+  border: 1px solid rgba(30, 64, 175, 0.65);
+  box-shadow: var(--shadow-soft);
+  min-height: 0;
+}
+
+.view.active {
+  display: flex;
+}
+
+/* 視圖標題列 */
+.view-header {
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px dashed rgba(148, 163, 184, 0.5);
+}
+
+.view-header h2 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+}
+
+.view-desc {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* ========== 流程圖畫布 ========== */
+#flowViewport {
+  flex: 1;
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid rgba(55, 65, 81, 0.9);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.16), transparent 60%),
+    radial-gradient(circle at 90% 100%, rgba(168, 85, 247, 0.16), transparent 60%),
+    linear-gradient(180deg, #020617, #020617);
+  overflow: auto;
+  cursor: grab;
+  min-height: 0;
+  box-shadow: var(--shadow-floating);
+}
+
+#flowViewport:active {
+  cursor: grabbing;
+}
+
+#flowCanvas {
+  position: relative;
+  width: 3200px;
+  height: 2400px;
+  /* 柔和格線 */
+  background-image:
+    linear-gradient(to right, rgba(51, 65, 85, 0.45) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(51, 65, 85, 0.45) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* SVG 連線層 */
+#flowLinksOverlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 節點層 */
+#flowNodesLayer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ========== 流程圖節點 ========== */
+.flow-node {
+  position: absolute;
+  min-width: 140px;
+  max-width: 260px;
+  padding: 8px 11px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  text-align: left;
+  line-height: 1.4;
+  cursor: pointer;
+  border-width: 1px;
+  border-style: solid;
+  color: #020617;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(16px);
+  transform-origin: center;
+  transition:
+    transform 0.11s ease,
+    box-shadow 0.11s ease,
+    filter 0.12s ease;
+}
+
+.flow-node.node-main {
+  background:
+    radial-gradient(circle at 0 0, rgba(251, 191, 36, 0.8), transparent 60%),
+    linear-gradient(135deg, #38bdf8, #0ea5e9);
+  border-color: rgba(248, 250, 252, 0.95);
+}
+
+.flow-node.node-branch {
+  background:
+    radial-gradient(circle at 100% 0, rgba(251, 113, 133, 0.9), transparent 60%),
+    linear-gradient(135deg, #fb923c, #fb7185);
+  border-color: rgba(255, 241, 242, 0.95);
+}
+
+.flow-node:hover {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 22px 42px rgba(15, 23, 42, 0.98);
+  filter: brightness(1.03);
+}
+
+/* 拖曳時避免選字 */
+body.dragging-node .flow-node {
+  user-select: none;
+}
+
+/* 被選取的節點（Shift 多選那一組） */
+.flow-node.is-selected {
+  box-shadow:
+    0 0 0 2px rgba(250, 250, 210, 0.95),
+    0 24px 52px rgba(15, 23, 42, 1);
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.12);
+  border-color: #facc15; /* 金色邊框，超好辨認 */
+}
+
+/* ========== 清單視圖（主線／分支、主題） ========== */
+.card-list {
+  flex: 1;
+  overflow: auto;
+  padding: 4px 2px 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card {
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  padding: 8px 10px;
+  background:
+    radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), transparent 65%),
+    radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.12), transparent 65%),
+    rgba(15, 23, 42, 0.98);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #e5e7eb;
+}
+
+.card-meta {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  border: 1px solid transparent;
+}
+
+.badge-main {
+  background: rgba(56, 189, 248, 0.15);
+  color: #7dd3fc;
+  border-color: rgba(56, 189, 248, 0.7);
+}
+
+.badge-branch {
+  background: rgba(251, 113, 133, 0.18);
+  color: #fecaca;
+  border-color: rgba(248, 113, 113, 0.85);
+}
+
+.badge-theme {
+  background: rgba(74, 222, 128, 0.18);
+  color: #bbf7d0;
+  border-color: rgba(74, 222, 128, 0.8);
+}
+
+.card-actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.card-actions button {
+  font-size: 0.7rem;
+  padding: 3px 9px;
+}
+
+/* ========== 右側詳細面板 ========== */
+.detail-panel {
+  flex: 1;
+  max-width: 380px;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(30, 64, 175, 0.7);
+  background:
+    radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.2), transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.24), transparent 65%),
+    rgba(15, 23, 42, 0.98);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  gap: 6px;
+  box-shadow: var(--shadow-soft);
+}
+
+.detail-panel.hidden {
+  display: none;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(148, 163, 184, 0.6);
+}
+
+.detail-header h2 {
+  margin: 0;
+  font-size: 0.86rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+}
+
+.detail-content {
+  flex: 1;
+  overflow: auto;
+  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 表單組件 */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-group label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.field-group input[type="text"],
+.field-group textarea,
+.field-group select {
+  width: 100%;
+  border-radius: 11px;
+  border: 1px solid rgba(148, 163, 184, 0.65);
+  padding: 5px 8px;
+  font-size: 0.78rem;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 1));
+  color: var(--text-main);
+}
+
+.field-group textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.field-group select {
+  padding-right: 26px;
+}
+
+/* 項目群組標題 */
+.items-section-title {
+  font-size: 0.76rem;
+  font-weight: 600;
+  margin-top: 2px;
+  color: #e5e7eb;
+}
+
+/* 項目卡片（標題＋描述） */
+.item-row {
+  border-radius: 13px;
+  border: 1px solid rgba(148, 163, 184, 0.75);
+  padding: 6px 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background:
+    radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.1), transparent 60%),
+    rgba(15, 23, 42, 0.98);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+}
+
+.item-row-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+
+.item-row-header input {
+  flex: 1;
+}
+
+.item-row button[data-action="delete-item"] {
+  border-color: rgba(248, 113, 113, 0.75);
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.85);
+}
+
+/* 小按鈕（返回流程圖那顆） */
+.ghost-button {
+  background: transparent;
+  border-radius: 999px;
+  color: var(--text-muted);
+  border-color: transparent;
+}
+
+.ghost-button:hover {
+  background: radial-gradient(circle at top, rgba(30, 64, 175, 0.85), rgba(15, 23, 42, 1));
+  border-color: rgba(148, 163, 184, 0.7);
+}
+
+/* 小字提示 */
+.subtle-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* 連線摘要 */
+.link-summary {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ========== RWD ========== */
+@media (max-width: 1100px) {
+  #app {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .toolbar {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .detail-panel {
+    max-width: none;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .toolbar-left {
+    flex: 1 0 100%;
+    justify-content: center;
+  }
+
+  .toolbar-center {
+    flex-wrap: wrap;
+  }
+
+  .toolbar-right {
+    flex-wrap: wrap;
+  }
+
+  #flowCanvas {
+    width: 2200px;
+    height: 1600px;
+  }
+}
+
