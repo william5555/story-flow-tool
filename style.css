@@ -60,7 +60,9 @@ body {
   display: flex;
   align-items: center;
   padding: 10px 16px;
-  margin-bottom: 12px;
+
+  margin-bottom: 0;
+
   background:
     linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.98));
   border-radius: 999px;
@@ -68,7 +70,16 @@ body {
   gap: 10px;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
   backdrop-filter: blur(22px);
+
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 36px);
+  max-width: 1284px; /* 1320 - 左右 padding(18*2) */
+  z-index: 9999;
 }
+
 
 .toolbar-left,
 .toolbar-center,
@@ -609,4 +620,3 @@ body.dragging-node .flow-node {
     height: 1600px;
   }
 }
-
